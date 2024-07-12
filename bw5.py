@@ -11,7 +11,7 @@ import json
 
 
 # Owner ID (Replace with your Telegram user ID)
-owner_id = 5470956337
+owner_id = 7125877715
 owner_id2 = 5470956337
 
 # Load banned users from JSON file
