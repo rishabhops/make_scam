@@ -3,7 +3,7 @@ import json
 from message import *
 
 
-bot = telebot.TeleBot("5229400507:AAHGPiOyfIlliYuD2boZVlqRK5SwbcBi0OY")
+bot = telebot.TeleBot("6401205527:AAGLdUiEsjuTWUgd6uK6iuz3AQW-gD5uqrM")
 
 import telebot
 import json
