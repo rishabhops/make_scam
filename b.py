@@ -1,6 +1,6 @@
 import telebot
 import json
-from message import *
+
 
 
 bot = telebot.TeleBot("6401205527:AAGLdUiEsjuTWUgd6uK6iuz3AQW-gD5uqrM")
