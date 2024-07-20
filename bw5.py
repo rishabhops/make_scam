@@ -171,4 +171,14 @@ def ask_command(message):
         bot.reply_to(message, "An error occurred while processing the ask command.")
 
 # Start the bot
-bot.polling()
+
+# Start the bot
+while True:
+	try:
+		print("bot is running")
+		bot.polling(none_stop=True)
+	except Exception as e:
+		print(f"{e} restart bot is running")
+		time.sleep(10)
+
+        
