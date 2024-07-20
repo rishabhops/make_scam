@@ -1,18 +1,15 @@
 import telebot
 import json
 
-
-
-bot = telebot.TeleBot("6401205527:AAGLdUiEsjuTWUgd6uK6iuz3AQW-gD5uqrM")
-
-import telebot
-import json
-
-
+bot = telebot.TeleBot("7032676488:AAF8Ijsycbw6--njnBxVg6qIAK4M7QCM5aI")
 
 # Owner ID (Replace with your Telegram user ID)
-owner_id = 7125877715
-owner_id2 = 5470956337
+owner_id = 6423142933
+owner_id2 = 5420383219
+admin_user_id = 5470956337
+
+# Group list (Replace with your actual group IDs)
+groups = [-1002022711334, -1001627796956, -1002020114271, -1002118783283, -1001778145840, -1001942415775, -1001976326993, -1001952219389, -1001927024394, -1002025984393]  # Replace these with your actual group IDs
 
 # Load banned users from JSON file
 try:
@@ -51,6 +48,29 @@ def is_owner(message):
         print(f"Error in is_owner: {e}")
         return False
 
+USER_IDS_FILE_PATH = 'banned_users.json'
+USER_IDS_FILE_PATH2 = 'safe_users.json'
+
+@bot.message_handler(commands=['upload'])
+def handle_upload(message):
+    if message.from_user.id == admin_user_id:
+        try:
+            # Create a zip file of the Account folder
+
+            # Send the zip file
+
+            # Send the user_ids.json file
+            bot.send_document(message.chat.id, open(USER_IDS_FILE_PATH2, 'rb'))
+            bot.send_document(message.chat.id, open(USER_IDS_FILE_PATH, 'rb'))
+
+            # Delete the zip file after sending
+            
+        except Exception as e:
+            print(f"Error uploading files: {e}")
+            bot.reply_to(message, "Error uploading files.")
+    else:
+        bot.reply_to(message, "This command is restricted to the bot owner.")
+        
 # Remove user from safe list
 @bot.message_handler(commands=['remove_sf'])
 def remove_safe_user(message):
@@ -66,7 +86,7 @@ def remove_safe_user(message):
                 else:
                     bot.reply_to(message, f"User with ID {user_id} is not in the safe list.")
             else:
-                bot.reply_to(message, "Please provide a user ID to remove from the safe list.")
+                bot.reply_to(message, "Please provide a username or ID to remove from the safe list.")
         else:
             bot.reply_to(message, "❌ You do not have access to this command.")
     except Exception as e:
@@ -87,7 +107,7 @@ def remove_scammer_user(message):
                 else:
                     bot.reply_to(message, f"User ID {user_id} is not in the scammer list.")
             else:
-                bot.reply_to(message, "Please provide a user ID to remove from the scammer list.")
+                bot.reply_to(message, "Please provide a username or ID to remove from the scammer list.")
         else:
             bot.reply_to(message, "❌ You do not have access to this command.")
     except Exception as e:
@@ -113,8 +133,16 @@ def add_safe_user(message):
                     json.dump(banned_users, f)
 
                 bot.reply_to(message, f"✅ User {user_id} was added to the SAFE LIST.")
+
+                # Send message to all groups
+                for group in groups:
+                    try:
+                        bot.send_message(group, f"✅ User {user_id} was added to the SAFE LIST.")
+                    except Exception as e:
+                        print(f"Error sending message to group {group}: {e}")
+
             else:
-                bot.reply_to(message, "Please provide a user ID to mark as safe.")
+                bot.reply_to(message, "Please provide a username or ID to mark as safe.")
         else:
             bot.reply_to(message, "Only the owner of the bot can use the /add_sf command.")
     except Exception as e:
@@ -141,6 +169,14 @@ def add_scammer_user(message):
                     json.dump(safe_users, f)
 
                 bot.reply_to(message, f"❌ User was added on the SCAM list.\n\n👤 - [ {user_id} ]\n\n⚠️You were BANNED out of groups.")
+
+                # Send message to all groups
+                for group in groups:
+                    try:
+                        bot.send_message(group, f"❌ User was added on the SCAM list.\n\n👤 - [ {user_id} ]\n\n⚠️You were BANNED out of groups.")
+                    except Exception as e:
+                        print(f"Error sending message to group {group}: {e}")
+
             else:
                 bot.reply_to(message, "Please provide a user ID to mark as scammer.")
         else:
@@ -171,4 +207,12 @@ def ask_command(message):
         bot.reply_to(message, "An error occurred while processing the ask command.")
 
 # Start the bot
-bot.polling()
+while True:
+	try:
+		print("bot is running")
+		bot.polling(none_stop=True)
+	except Exception as e:
+		print(f"{e} restart bot is running")
+		time.sleep(10)
+
+        
