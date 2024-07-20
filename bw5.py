@@ -140,7 +140,7 @@ def add_scammer_user(message):
                 with open('safe_users.json', 'w') as f:
                     json.dump(safe_users, f)
 
-                bot.reply_to(message, f"❌ User was added on the SCAM list.\n\n👤 - [ {user_id} ]\n\n⚠️You were BANNED out of groups.")
+                bot.reply_to(message, f"⚠️User added to the SCAM list!\n[ {user_id} ]")
             else:
                 bot.reply_to(message, "Please provide a user ID to mark as scammer.")
         else:
@@ -157,12 +157,12 @@ def ask_command(message):
             username_or_id = message.text.split()[1]
             for user_id, username in banned_users.items():
                 if username_or_id == username or username_or_id == user_id:
-                    bot.reply_to(message, f"❌ User was added to the SCAM list.\n\n👤 [ {username_or_id} ]\n\n⚠️ You are BANNED from the groups.")
+                    bot.reply_to(message, f"⛔️ This user is SCAM. DONT make deals with him!.\n[ {username_or_id} ]")
                     return
             
             for user_id, username in safe_users.items():
                 if username_or_id == username or username_or_id == user_id:
-                    bot.reply_to(message, f'✅ This User is marked as a SAFE !\n\n👤 [{username_or_id}]\n\n⚠️ Look carefully if the Username is not written in the "Bio"')
+                    bot.reply_to(message, f'✅ This User is marked as a SAFE !\n\n[{username_or_id}]\n\n⚠️ Look carefully if the Username is not written in the "Bio"')
                     return
             
             bot.reply_to(message, f"⚠️ User was not found in this database!\n\n👤 - [ {username_or_id} ] \n\n❌ We do not recommend to make deals with this User.")
